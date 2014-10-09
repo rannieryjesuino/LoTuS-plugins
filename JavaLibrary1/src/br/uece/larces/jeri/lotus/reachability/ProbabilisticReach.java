@@ -32,8 +32,11 @@ public class ProbabilisticReach extends Plugin{
     public void onStart(ExtensionManager extensionManager) throws Exception {
             
         ProjectExplorer pe = (ProjectExplorer) extensionManager.get(ProjectExplorer.class);
+        UserInterface ui = (UserInterface) extensionManager.get(UserInterface.class);
         List<Component> aux = new ArrayList<>();
-        pe.getMenu().addItem(Integer.MAX_VALUE, "Probabilistic Reach", () ->{
+        ui.getToolBar().newItem("Probabilistic Reach")
+            .setWeight(Integer.MAX_VALUE)
+            .setAction(() -> {
             if (pe.getSelectedComponents().size() != 1) {
                 throw new RuntimeException("Select exactly ONE component!");
                 }     
@@ -44,8 +47,11 @@ public class ProbabilisticReach extends Plugin{
                 int destination = Integer.parseInt(aux2);
                 State sourceS = a.getStateByID(source);
                 State destinationS = a.getStateByID(destination);
-                probabilityBetween(sourceS, destinationS, 1);
-        });
+                System.out.println(probabilityBetween(a, sourceS, destinationS, 1));
+                JOptionPane.showMessageDialog(null, "Probability to reach state " + destination + " from state " + source + " is: " + probabilityBetween(a, sourceS, destinationS, 1));
+            })
+            
+            .create();
     }
     
     /*
@@ -73,15 +79,59 @@ public class ProbabilisticReach extends Plugin{
     
     */
     
-    public double probabilityBetween (State source, State destination, double probability) {
-        if(destination == source){
-            return probability;
+    public double probabilityBetween (Component a, State source, State destination, double probability) {
+        int tam = getStatesSize(a.getStates());//statesL.size();
+        double[][] probabilities = new double[tam][tam];
+        probabilities = zerar(probabilities, tam);
+        List<Transition> transitions = transitionsList(a);
+        int i;
+        int j;
+        for(Transition t : transitions){
+            i = t.getSource().getID();
+            j = t.getDestiny().getID();
+            probabilities[i][j] = t.getProbability();
         }
-        for(Transition finder : destination.getIncomingTransitions()){
-            probability = finder.getProbability() + probabilityBetween(source, finder.getSource(), finder.getProbability() * probability);
-        }
-        return 0;
+//      multiplica as matrizes um monte de vez
+        i = source.getID();
+        j = destination.getID();
+        return probabilities[i][j];
     }
+    
+    public List<Transition> transitionsList(Component a){
+        Iterable<Transition> aux = a.getTransitions();
+        List<Transition> aux2 = new ArrayList();
+        for(Transition t : aux){
+            aux2.add(t);
+        }
+        return aux2;
+    }
+    
+    public int getStatesSize(Iterable<State> states){
+        List<State> statesL = new ArrayList();
+        for(State aux : states){
+            statesL.add(aux);
+        }
+        int size = statesL.size();
+        return size;
+    }
+    
+    public double[][] zerar (double[][] probabilities, int tam){
+        for(int i = 0; i < tam; i++){
+            for(int j = 0; j < tam; j++){
+                probabilities[i][j] = 0;
+            }
+        }
+        return probabilities;
+    }
+   
+//        if(destination == source){
+//            return probability;
+//        }
+//        for(Transition finder : destination.getIncomingTransitions()){
+//            probability = finder.getProbability() + probabilityBetween(source, finder.getSource(), finder.getProbability() * probability);
+//        }
+    
+    
     /*
     
     static boolean pathBetween(GraphNode source, GraphNode destination) {
