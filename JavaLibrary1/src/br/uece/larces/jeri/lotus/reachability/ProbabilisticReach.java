@@ -33,6 +33,25 @@ public class ProbabilisticReach extends Plugin{
             
         ProjectExplorer pe = (ProjectExplorer) extensionManager.get(ProjectExplorer.class);
         List<Component> aux = new ArrayList<>();
+        pe.getMenu().addItem(Integer.MAX_VALUE, "Probabilistic Reach", () ->{
+            if (pe.getSelectedComponents().size() != 1) {
+                throw new RuntimeException("Select exactly ONE component!");
+                }     
+                Component a = pe.getSelectedComponents().get(0);
+                String aux1 = JOptionPane.showInputDialog("Please input source state:");
+                String aux2 = JOptionPane.showInputDialog("Please input destination state:");
+                int source = Integer.parseInt(aux1);
+                int destination = Integer.parseInt(aux2);
+                State sourceS = a.getStateByID(source);
+                State destinationS = a.getStateByID(destination);
+                probabilityBetween(sourceS, destinationS, 1);
+        });
+    }
+    
+    /*
+    
+    ProjectExplorer pe = (ProjectExplorer) extensionManager.get(ProjectExplorer.class);
+        List<Component> aux = new ArrayList<>();
         pe.getComponentMenu().newItem("Probabilistic Reach")
             .setWeight(Integer.MAX_VALUE)
             .setAction(() -> {
@@ -44,21 +63,24 @@ public class ProbabilisticReach extends Plugin{
                 String aux2 = JOptionPane.showInputDialog("Please input destination state:");
                 int source = Integer.parseInt(aux1);
                 int destination = Integer.parseInt(aux2);
-                probabilityBetween(a, source, destination);
+                State sourceS = a.getStateByID(source);
+                State destinationS = a.getStateByID(destination);
+                probabilityBetween(sourceS, destinationS, 1);
             })
             
             .create();
     }
     
-    public List<State> probabilityBetween (Component cA, int source, int destination) {
-        List<State> path = new ArrayList<>();
-        State finder = null;
-        State sourceS = cA.getStateByID(source);
-        State destinationS = cA.getStateByID(destination);
-        while(finder != destinationS){
-            
+    */
+    
+    public double probabilityBetween (State source, State destination, double probability) {
+        if(destination == source){
+            return probability;
         }
-        return path;
+        for(Transition finder : destination.getIncomingTransitions()){
+            probability = finder.getProbability() + probabilityBetween(source, finder.getSource(), finder.getProbability() * probability);
+        }
+        return 0;
     }
     /*
     
