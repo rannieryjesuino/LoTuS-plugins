@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.uece.larces.jeri.lotus.parallelComposition;
+package br.uece.lotus.modelcheck;
 
 import br.uece.lotus.State;
 import java.util.Objects;
