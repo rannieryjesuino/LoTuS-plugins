@@ -8,47 +8,18 @@
  *
  * @author Ranniery
  */
-package br.uece.larces.jeri.lotus.parallelComposition;
+package br.uece.lotus.modelcheck;
 
-import br.uece.seed.app.UserInterface;
-import br.uece.seed.ext.ExtensionManager;
-import br.uece.seed.ext.Plugin;
 import br.uece.lotus.Component;
-import br.uece.lotus.Project;
 import br.uece.lotus.State;
 import br.uece.lotus.Transition;
-import br.uece.lotus.project.ProjectExplorer;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Queue;
 import java.util.LinkedList;
-import java.util.Collection;
-import br.uece.lotus.viewer.TransitionViewFactory;
 
 
-public class ComposicaoParalela extends Plugin {
-    
-    @Override
-    public void onStart(ExtensionManager extensionManager) throws Exception {
-            
-            ProjectExplorer pe = (ProjectExplorer) extensionManager.get(ProjectExplorer.class);
-            List<Component> aux = new ArrayList<>();
-            pe.getComponentMenu().newItem("Parallel Composition")
-                    .setWeight(Integer.MAX_VALUE)
-                    .setAction(() -> {
-                        if (pe.getSelectedComponents().size() != 2) {
-                            throw new RuntimeException("Select exactly TWO components!");
-                        }     
-                        Component a = pe.getSelectedComponents().get(0);
-                        Component b = pe.getSelectedComponents().get(1);
-//                        System.out.println("clicou em " + a +", "+ b);
-                        Component c = ComposicaoParalela(a,b);
-                        c.setName(a.getName() + " || " + b.getName());
-                        pe.getSelectedProject().addComponent(c);               
-                    })
-                    .create();
-    }
+public class ParallelCompositor {       
                 
     public List compare(Component cA, Component cB){
         List<Transition> sharedActions = new ArrayList<>();
@@ -100,7 +71,7 @@ public class ComposicaoParalela extends Plugin {
         }
     }
     
-    public Component ComposicaoParalela(Component cA, Component cB) {
+    public Component compor(Component cA, Component cB) {
         Component PC = new Component();
         PC.setAutoUpdateLabels(false);
         List<Transition> sharedActions = new ArrayList<>();

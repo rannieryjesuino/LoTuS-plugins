@@ -3,56 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.uece.larces.jeri.lotus.reachability;
+package br.uece.lotus.modelcheck;
 
-import br.uece.seed.app.UserInterface;
-import br.uece.seed.ext.ExtensionManager;
-import br.uece.seed.ext.Plugin;
 import br.uece.lotus.Component;
-import br.uece.lotus.Project;
 import br.uece.lotus.State;
 import br.uece.lotus.Transition;
-import br.uece.lotus.project.ProjectExplorer;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.Queue;
-import java.util.LinkedList;
-import java.util.Collection;
-import br.uece.lotus.viewer.TransitionViewFactory;
-import javax.swing.JOptionPane;
 
 /**
  *
  * @author Ranniery
  */
-public class ProbabilisticReach extends Plugin{
-    
-    @Override
-    public void onStart(ExtensionManager extensionManager) throws Exception {
-            
-        ProjectExplorer pe = (ProjectExplorer) extensionManager.get(ProjectExplorer.class);
-        UserInterface ui = (UserInterface) extensionManager.get(UserInterface.class);
-        List<Component> aux = new ArrayList<>();
-        ui.getToolBar().newItem("Probabilistic Reach")
-            .setWeight(Integer.MAX_VALUE)
-            .setAction(() -> {
-            if (pe.getSelectedComponents().size() != 1) {
-                throw new RuntimeException("Select exactly ONE component!");
-                }     
-                Component a = pe.getSelectedComponents().get(0);
-                String aux1 = JOptionPane.showInputDialog("Please input source state:");
-                String aux2 = JOptionPane.showInputDialog("Please input destination state:");
-                int source = Integer.parseInt(aux1);
-                int destination = Integer.parseInt(aux2);
-                State sourceS = a.getStateByID(source);
-                State destinationS = a.getStateByID(destination);
-                System.out.println(probabilityBetween(a, sourceS, destinationS, 1));
-                JOptionPane.showMessageDialog(null, "Probability to reach state " + destination + " from state " + source + " is: " + probabilityBetween(a, sourceS, destinationS, 1));
-            })
-            
-            .create();
-    }
+public class ProbabilisticReach {
     
     /*
     
