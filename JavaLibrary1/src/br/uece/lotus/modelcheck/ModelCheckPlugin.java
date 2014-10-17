@@ -28,7 +28,6 @@ public class ModelCheckPlugin extends Plugin {
     public void onStart(ExtensionManager extensionManager) throws Exception {
         mUserInterface = (UserInterface) extensionManager.get(UserInterface.class);
         mProjectExplorer = (ProjectExplorer) extensionManager.get(ProjectExplorer.class);
-
         mUserInterface.getMainMenu().newItem("Verification/Unreachable States")
                 .setWeight(Integer.MAX_VALUE)
                 .setAction(() -> {
