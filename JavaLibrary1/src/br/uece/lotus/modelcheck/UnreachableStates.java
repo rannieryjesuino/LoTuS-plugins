@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.uece.larces.jeri.lotus.reachability;
+package br.uece.lotus.modelcheck;
 
 /**
  *
@@ -31,7 +31,7 @@ import br.uece.lotus.viewer.TransitionViewFactory;
  * @author Ranniery
  */
 public class UnreachableStates extends Plugin {
-   /* 
+    
     @Override
     public void onStart(ExtensionManager extensionManager) throws Exception {
             
@@ -52,7 +52,7 @@ public class UnreachableStates extends Plugin {
                 })
                 .create();
     }
-    */
+    
     public List<State> detectUncheachableStates (Component a) {
         List<State> unreachables = new ArrayList<>();
         for(State aux : a.getStates()){

@@ -26,7 +26,7 @@ import br.uece.lotus.viewer.TransitionViewFactory;
  * @author Ranniery
  */
 public class DeadlockDetection extends Plugin {
-    
+    /*
     @Override
     public void onStart(ExtensionManager extensionManager) throws Exception {
             
@@ -47,7 +47,7 @@ public class DeadlockDetection extends Plugin {
                 })
                 .create();
     }
-    
+    */
     public List<State> detectDeadlocks (Component a) {
         List<State> deadlocks = new ArrayList<>();
         for(State aux : a.getStates()){

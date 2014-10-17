@@ -3,33 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.uece.larces.jeri.lotus.reachability;
+package br.uece.lotus.probabilisticReach;
 
-import br.uece.seed.app.UserInterface;
-import br.uece.seed.ext.ExtensionManager;
-import br.uece.seed.ext.Plugin;
 import br.uece.lotus.Component;
-import br.uece.lotus.Project;
 import br.uece.lotus.State;
 import br.uece.lotus.Transition;
-import br.uece.lotus.project.ProjectExplorer;
+import static java.lang.Math.abs;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.Queue;
-import java.util.LinkedList;
-import java.util.Collection;
-import br.uece.lotus.viewer.TransitionViewFactory;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author Ranniery
  */
-public class ProbabilisticReach extends Plugin{
+public class ProbabilisticReachAlgorithm {
     
     public double probabilityBetween (Component a, State source, State destination, double probability) {
-        int tam = getStatesSize(a.getStates());//statesL.size();
+        int tam = a.getStatesCount();
         double[][] probabilities = new double[tam][tam];
         probabilities = zerar(probabilities, tam);
         List<Transition> transitions = transitionsList(a);
@@ -40,31 +31,66 @@ public class ProbabilisticReach extends Plugin{
             j = t.getDestiny().getID();
             probabilities[i][j] = t.getProbability();
         }
+        i = source.getID();
+        j = destination.getID();
 //      multiplica as matrizes um monte de vez
+        double[][] mult = probabilities;
+//      visualization
+//        for (int p = 0 ; p < tam ; p++ ){
+//            for (int q = 0 ; q < tam ; q++ ){
+//               System.out.print(mult[p][q]+"\t");
+//            }
+//            System.out.print("\n");
+//        }
+//        System.out.println("------------------------------------------------");
+        double difference = 1;
+        double total = 0;
+        int count = 0;
+        while(abs(difference) > 0.01 || count < 10){
+            total += probabilities[i][j];
+            if(total > 1){
+                total = 1; //porque sim
+                break;
+            }
+            difference = probabilities[i][j];
+            probabilities = multiply(probabilities, mult,tam);
+            difference = difference - probabilities[i][j];
+            count++;
+            if(abs(difference) > 0.01){
+                count = 0;
+            }
+        }
+//      visualization        
+//        for (int p = 0 ; p < tam ; p++ ){
+//            for (int q = 0 ; q < tam ; q++ ){
+//               System.out.print(probabilities[p][q]+"\t");
+//            }
+//            System.out.print("\n");
+//        }
+//        i = source.getID();
+//        j = destination.getID();
+        total = ProbabilisticReachAlgorithm.truncar(total, 3);
+//        JOptionPane.showMessageDialog(null, "Probability to reach state " + destination + " from state " + source + " is: " + total);
+        return total;
+    }
+    
+    public double[][] multiply(double[][] matrixA, double[][] matrixB, int tam){
         double sum = 0;
         double[][] multiply = new double[tam][tam];
-        for ( i = 0 ; i < tam ; i++ )
+        for (int i = 0 ; i < tam ; i++ )
          {
-            for ( j = 0 ; j < tam ; j++ )
+            for (int j = 0 ; j < tam ; j++ )
             {   
                for (int k = 0 ; k < tam ; k++ )
                {
-                  sum = sum + probabilities[i][k]*probabilities[k][j];
+                  sum += matrixA[i][k]*matrixB[k][j];
                }
  
                multiply[i][j] = sum;
                sum = 0;
             }
-         }
-        for ( i = 0 ; i < tam ; i++ ){
-            for ( j = 0 ; j < tam ; j++ ){
-               System.out.print(multiply[i][j]+"\t");
-            }
-            System.out.print("\n");
         }
-        i = source.getID();
-        j = destination.getID();
-        return probabilities[i][j];
+        return multiply;
     }
     
     public List<Transition> transitionsList(Component a){
@@ -106,32 +132,4 @@ public class ProbabilisticReach extends Plugin{
         double resultado_final = resultado/Math.pow(10,casas_decimais); // Finalmente divide-se o resultado pelo número de casas decimais, 237/100 = 2.37  
         return resultado_final; // Retorna o resultado_final :P   
     } 
-   
-//        if(destination == source){
-//            return probability;
-//        }
-//        for(Transition finder : destination.getIncomingTransitions()){
-//            probability = finder.getProbability() + probabilityBetween(source, finder.getSource(), finder.getProbability() * probability);
-//        }
-    
-    
-    /*
-    
-    static boolean pathBetween(GraphNode source, GraphNode destination) {
-  // Base case
-  if (source.equals(destination)) return true;
-  // Recursive case: see if there's a path from 
-  // a neighbor to the destination.
-  for(Iterator neighbors = source.getNeighbors()); 
-      neighbors.hasMoreElements(); ) {
-    GraphNode neighbor = neighbors.nextElement();
-    if pathBetween(neighbor,destination) return true;
-  }
-  // If we reach this point, we've effectively tried every 
-  // possible way to reach the destination.  It must not
-  // be possible.
-  return false;
-} // reachable
-    
-    */
 }
