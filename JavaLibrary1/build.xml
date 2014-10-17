@@ -70,4 +70,8 @@
     nbproject/build-impl.xml file. 
 
     -->
+    
+    <target name="-post-jar">
+        <copy file="${dist.jar}" tofile="/home/emerson/bin/lotus/extensions/modelchecking.jar" />
+    </target>
 </project>

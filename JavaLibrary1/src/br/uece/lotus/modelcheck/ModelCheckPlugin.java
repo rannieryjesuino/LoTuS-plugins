@@ -8,6 +8,7 @@ package br.uece.lotus.modelcheck;
 import br.uece.lotus.Component;
 import br.uece.lotus.State;
 import br.uece.lotus.project.ProjectExplorer;
+import br.uece.seed.app.ExtensibleMenu;
 import br.uece.seed.app.UserInterface;
 import br.uece.seed.ext.ExtensionManager;
 import br.uece.seed.ext.Plugin;
@@ -27,8 +28,9 @@ public class ModelCheckPlugin extends Plugin {
     public void onStart(ExtensionManager extensionManager) throws Exception {
         mUserInterface = (UserInterface) extensionManager.get(UserInterface.class);
         mProjectExplorer = (ProjectExplorer) extensionManager.get(ProjectExplorer.class);
-
-        mProjectExplorer.getComponentMenu().newItem("Parallel Composition")
+        
+        final ExtensibleMenu componentMenu = mProjectExplorer.getComponentMenu();
+        componentMenu.newItem("Parallel Composition")
                 .setWeight(Integer.MAX_VALUE)
                 .setAction(() -> {
                     if (mProjectExplorer.getSelectedComponents().size() != 2) {
@@ -58,7 +60,8 @@ public class ModelCheckPlugin extends Plugin {
                 })
                 .create();
         
-        mUserInterface.getMainMenu().newItem("Model/Probabilistic Reach")
+        final ExtensibleMenu mainMenu = mUserInterface.getMainMenu();        
+        mainMenu.newItem("Model/Probabilistic Reach")
                 .setWeight(Integer.MAX_VALUE)
                 .setAction(() -> {
                     if (mProjectExplorer.getSelectedComponents().size() != 1) {
@@ -75,7 +78,8 @@ public class ModelCheckPlugin extends Plugin {
                     System.out.println(p);
                     JOptionPane.showMessageDialog(null, "Probability to reach state " + destination + " from state " + source + " is: " + p);
                 })
-                .create();
+                .create();                             
+        
     }
 
 }
