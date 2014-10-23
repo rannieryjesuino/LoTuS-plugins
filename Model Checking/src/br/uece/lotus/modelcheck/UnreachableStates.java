@@ -68,3 +68,4 @@ public class UnreachableStates extends Plugin {
             return false;
         }
     }
+}

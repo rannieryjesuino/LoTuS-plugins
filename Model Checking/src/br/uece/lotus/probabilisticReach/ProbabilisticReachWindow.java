@@ -8,9 +8,13 @@ package br.uece.lotus.probabilisticReach;
 import br.uece.lotus.Component;
 import br.uece.lotus.State;
 import br.uece.lotus.Transition;
+import br.uece.lotus.probabilisticReach.Parser;
 import br.uece.lotus.viewer.BasicComponentViewer;
 import br.uece.lotus.viewer.StateView;
 import br.uece.lotus.viewer.View;
+import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.Int;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -182,11 +186,13 @@ public class ProbabilisticReachWindow extends AnchorPane{
             JOptionPane.showMessageDialog(null, "Provide source and target states!");
             return;
         }
+        String[] tokens = aux2.split(" ");
+        int[] targets = new Parser().toInt(tokens);
         int source = Integer.parseInt(aux1);
         int destination = Integer.parseInt(aux2);
         State sourceS = a.getStateByID(source);
         State destinationS = a.getStateByID(destination);
-        double p = new ProbabilisticReachAlgorithm().probabilityBetween(a, sourceS, destinationS, 1);
+        double p = new ProbabilisticReachAlgorithm().probabilityBetween(a, sourceS, destinationS);
         String result = String.valueOf(p);
         
         if(aux4 == null || aux4.trim().isEmpty()){
