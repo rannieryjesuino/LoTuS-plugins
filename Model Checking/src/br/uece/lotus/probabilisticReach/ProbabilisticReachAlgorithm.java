@@ -31,6 +31,7 @@ public class ProbabilisticReachAlgorithm {
             j = t.getDestiny().getID();
             probabilities[i][j] = t.getProbability();
         }
+        zerarDiagonal(probabilities, tam);
         i = source.getID();
         j = destination.getID();
 //      multiplica as matrizes um monte de vez
@@ -48,17 +49,16 @@ public class ProbabilisticReachAlgorithm {
         int count = 0;
         while(abs(difference) > 0.01 || count < 10){
             total += probabilities[i][j];
-            if(total > 1){
-                total = 1; //porque sim
-                break;
-            }
             difference = probabilities[i][j];
             probabilities = multiply(probabilities, mult,tam);
             difference = difference - probabilities[i][j];
             count++;
-            if(abs(difference) > 0.01){
+            if(abs(difference) > 0.0001){
                 count = 0;
             }
+        }
+        if(total > 1){
+           total = 1;
         }
 //      visualization        
 //        for (int p = 0 ; p < tam ; p++ ){
@@ -69,7 +69,7 @@ public class ProbabilisticReachAlgorithm {
 //        }
 //        i = source.getID();
 //        j = destination.getID();
-        total = ProbabilisticReachAlgorithm.truncar(total, 3);
+        total = ProbabilisticReachAlgorithm.truncar(total, 5);
 //        JOptionPane.showMessageDialog(null, "Probability to reach state " + destination + " from state " + source + " is: " + total);
         return total;
     }
@@ -115,6 +115,15 @@ public class ProbabilisticReachAlgorithm {
         for(int i = 0; i < tam; i++){
             for(int j = 0; j < tam; j++){
                 probabilities[i][j] = 0;
+            }
+        }
+        return probabilities;
+    }
+    
+    public double[][] zerarDiagonal (double[][] probabilities, int tam){
+        for(int i = 0; i < tam; i++){
+            if(probabilities[i][i] == 1){
+                probabilities[i][i] = 0;
             }
         }
         return probabilities;

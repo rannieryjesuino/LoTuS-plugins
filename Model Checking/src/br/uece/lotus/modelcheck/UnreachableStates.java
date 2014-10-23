@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package br.uece.lotus.modelcheck;
 
 /**
@@ -25,6 +26,7 @@ import java.util.Queue;
 import java.util.LinkedList;
 import java.util.Collection;
 import br.uece.lotus.viewer.TransitionViewFactory;
+import br.uece.lotus.modelcheck.DeadlockDetection;
 
 /**
  *
@@ -36,11 +38,33 @@ public class UnreachableStates extends Plugin {
         List<State> unreachables = new ArrayList<>();
         
         for(State aux : a.getStates()){
-            if(aux.getIncomingTransitionsCount()== 0 && aux != a.getInitialState()){
+            if(isUnreachable(aux)){
                 unreachables.add(aux);
             }
         }
         
         return unreachables;
     }
-}
+
+    public void remove (List<State> unreachables, Component a){
+        List<State> unreachablePath = unreachables;
+        
+        while(!unreachablePath.isEmpty()){
+            for(State aux : unreachablePath){
+                a.remove(aux);
+            }
+            int allStates = a.getStatesCount();
+            int allTransitions = a.getTransitionsCount();
+            unreachablePath = detectUncheachableStates(a);
+        }
+    }
+    
+    
+    public boolean isUnreachable (State s){
+        System.out.println(s.getIncomingTransitionsCount());
+        if(s.getIncomingTransitionsCount() == 0 && !s.isInitial()){
+            return true;
+        }else{
+            return false;
+        }
+    }

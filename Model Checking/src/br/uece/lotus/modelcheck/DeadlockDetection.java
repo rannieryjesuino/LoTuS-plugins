@@ -19,10 +19,19 @@ public class DeadlockDetection {
     public List<State> detectDeadlocks (Component a) {
         List<State> deadlocks = new ArrayList<>();
         for(State aux : a.getStates()){
-            if(aux.getOutgoingTransitionsCount() == 0){
+            if(isDeadlock(aux)){
                 deadlocks.add(aux);
             }
         }
         return deadlocks;
     }
+    
+    public boolean isDeadlock (State s){
+        if(s.getOutgoingTransitionsCount() == 0 && !s.isFinal()){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
 }

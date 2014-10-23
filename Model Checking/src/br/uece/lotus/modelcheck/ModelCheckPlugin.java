@@ -6,6 +6,8 @@
 package br.uece.lotus.modelcheck;
 
 import br.uece.lotus.probabilisticReach.ProbabilisticReachAlgorithm;
+
+import br.uece.lotus.modelcheck.UnreachableStates;
 import br.uece.lotus.Component;
 import br.uece.lotus.State;
 import br.uece.lotus.project.ProjectExplorer;
@@ -20,6 +22,7 @@ import javax.swing.JOptionPane;
  *
  * @author emerson
  */
+
 public class ModelCheckPlugin extends Plugin {
 
     private UserInterface mUserInterface;
@@ -45,7 +48,6 @@ public class ModelCheckPlugin extends Plugin {
                 .create();
 
         List<Component> aux = new ArrayList<>();
-//        pe.getComponentMenu().newItem("Unreachable States")
         mUserInterface.getMainMenu().newItem("Verification/Unreachable States")
             .setWeight(Integer.MAX_VALUE)
             .setAction(() -> {
@@ -54,20 +56,22 @@ public class ModelCheckPlugin extends Plugin {
                 }     
                 Component a = mProjectExplorer.getSelectedComponents().get(0);
                 List<State> unreachables = new UnreachableStates().detectUncheachableStates(a);
-                System.out.println("Unreachable States:");
                 String output = new String();
-                    int tam = unreachables.size();
-//                    System.out.println("Deadlock States:");
-                    if(unreachables.size() > 0){
-                        output += unreachables.get(0).getLabel();
-                        for (int i = 1; i < unreachables.size(); i++) {
-                            output += ", " + unreachables.get(i).getLabel();
-                        }
-                        output += ".";
-                        JOptionPane.showMessageDialog(null, "Unreachable States: " + output);
-                    }else{
-                        JOptionPane.showMessageDialog(null, "No unreachable states!");
+                int tam = unreachables.size();
+                if(unreachables.size() > 0){
+                    output += unreachables.get(0).getLabel();
+                    for (int i = 1; i < unreachables.size(); i++) {
+                        output += ", " + unreachables.get(i).getLabel();
                     }
+                    output += ".";
+//                    JOptionPane.showMessageDialog(null, "Unreachable States: " + output);
+                    int dialogResult = JOptionPane.showConfirmDialog (null, "Would you like to remove those states?" + "\n" + "Unreachable States: " + output, "Unreachable States", JOptionPane.YES_NO_OPTION);
+                    if(dialogResult == JOptionPane.YES_OPTION){
+                        new UnreachableStates().remove(unreachables, a);
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(null, "No unreachable states!");
+                }
             })
                 .create();
         
