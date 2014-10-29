@@ -34,7 +34,7 @@ import br.uece.lotus.modelcheck.DeadlockDetection;
  */
 public class UnreachableStates extends Plugin {
     
-    public List<State> detectUncheachableStates (Component a) {
+    public List<State> detectUnreachableStates (Component a) {
         List<State> unreachables = new ArrayList<>();
         
         for(State aux : a.getStates()){
@@ -55,7 +55,7 @@ public class UnreachableStates extends Plugin {
             }
 //            int allStates = a.getStatesCount();
 //            int allTransitions = a.getTransitionsCount();
-            unreachablePath = detectUncheachableStates(a);
+            unreachablePath = detectUnreachableStates(a);
         }
     }
     

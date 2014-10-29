@@ -47,7 +47,7 @@ public class ProbabilisticReachWindow extends AnchorPane{
     private final TextField mTgtSttField;
     private final ChoiceBox mChoiceBox;
     private final TextField mOptionalField;
-    private final Label mOutputField;
+    private final TextField mOutputField;
     private final BasicComponentViewer mViewer;
     private final ScrollPane mScrollPanel;
 
@@ -63,10 +63,12 @@ public class ProbabilisticReachWindow extends AnchorPane{
         getChildren().add(mScrollPanel);        
 
         mSrcSttField = new TextField();
-        mSrcSttField.setPromptText("Source State");
+        mSrcSttField.setPromptText("Source");
+        mSrcSttField.setPrefWidth(58.0);
         
         mTgtSttField = new TextField();
-        mTgtSttField.setPromptText("Target State");
+        mTgtSttField.setPromptText("Target");
+        mTgtSttField.setPrefWidth(58.0);
         
         mChoiceBox = new ChoiceBox();
         mChoiceBox.getItems().addAll(">", ">=", "<", "<=", "=", "!=");
@@ -76,21 +78,29 @@ public class ProbabilisticReachWindow extends AnchorPane{
         
         mOptionalField = new TextField();
         mOptionalField.setPromptText("Condition");
+        mOptionalField.setPrefWidth(70.0);
         
-        mOutputField = new Label("Result");
         
         mBtnCalculate = new Button("Probability");
         mBtnCalculate.setOnAction((ActionEvent e) -> {
             calculate();            
         });
+        
+        mOutputField = new TextField();
+        mOutputField.setPromptText("Result");
+        mOutputField.setPrefWidth(58.0);
+        mOutputField.setEditable(false);
+        mOutputField.setFocusTraversable(false);
+        mOutputField.setMouseTransparent(true);
+        
 
         mToolbar = new ToolBar();
         mToolbar.getItems().addAll(mSrcSttField);
         mToolbar.getItems().addAll(mTgtSttField);
         mToolbar.getItems().addAll(mChoiceBox);
         mToolbar.getItems().addAll(mOptionalField);
-        mToolbar.getItems().addAll(mOutputField);
         mToolbar.getItems().addAll(mBtnCalculate);
+        mToolbar.getItems().addAll(mOutputField);
         AnchorPane.setTopAnchor(mToolbar, 0D);
         AnchorPane.setLeftAnchor(mToolbar, 0D);
         AnchorPane.setRightAnchor(mToolbar, 0D);

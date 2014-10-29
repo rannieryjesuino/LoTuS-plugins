@@ -55,7 +55,7 @@ public class ModelCheckPlugin extends Plugin {
                 throw new RuntimeException("Select exactly ONE component!");
                 }     
                 Component a = mProjectExplorer.getSelectedComponents().get(0);
-                List<State> unreachables = new UnreachableStates().detectUncheachableStates(a);
+                List<State> unreachables = new UnreachableStates().detectUnreachableStates(a);
                 String output = new String();
                 int tam = unreachables.size();
                 if(unreachables.size() > 0){
