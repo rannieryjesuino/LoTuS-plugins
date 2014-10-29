@@ -48,61 +48,11 @@ public class ProbabilisticReachWindow extends AnchorPane{
     private final ChoiceBox mChoiceBox;
     private final TextField mOptionalField;
     private final Label mOutputField;
-//    private final Button mBtnBackStep;
     private final BasicComponentViewer mViewer;
-//    private final TableView<Step> mTableView;
-//    private final Label mPathLabel;
-//    private EventHandler<? super MouseEvent> aoClicarMouse = new EventHandler<MouseEvent>() {
-//        @Override
-//        public void handle(MouseEvent e) {
-//            View v = mViewer.getViewByMouseCoordinates(e.getX(), e.getY());
-//            if (!(v instanceof StateView)) {
-//                return;
-//            }
-//            State s = ((StateView) v).getState();
-//            Transition t = mCurrentState.getTransitionTo(s);
-//            if (t == null) {
-//                System.out.println("-- selecione um estado valido!");
-//                return;
-//            }
-//
-//            for (Transition tt : mCurrentState.getOutgoingTransitions()) {
-//                if (tt == t) {
-//                    applyEnableStyle(t);
-//                } else {
-//                    applyDisabledStyle(tt);
-//                    applyDisabledStyle(tt.getDestiny());
-//                }
-//            }
-//            mSteps.add(new Step(t.getLabel(), mCurrentState.getLabel(), s.getLabel()));
-//            mPathLabel.setText(mPathLabel.getText() + " > " + t.getLabel());
-//            mCurrentState = s;
-//            if (s.isFinal() || s.isError()) {
-//                mPathLabel.setText(mPathLabel.getText() + " > ENDED");
-//                applyEnableStyle(mCurrentState);
-//                mBtnStart.setText("Start");
-//            } else if (s.getOutgoingTransitionsCount() == 0) {
-//                mPathLabel.setText(mPathLabel.getText() + " DEADLOCK!");
-//                applyEnableStyle(mCurrentState);
-//                mBtnStart.setText("Start");
-//            } else {
-//                showChoices();
-//            }
-//        }
-//    };
-//    private final TableColumn<Step, String> mSourceCol;
-//    private final TableColumn<Step, String> mTargetCol;
-//    private final TableColumn<Step, String> mConditionCol;
-//    private final ObservableList<Step> mSteps = FXCollections.observableArrayList();
     private final ScrollPane mScrollPanel;
 
     public ProbabilisticReachWindow() {
         mViewer = new BasicComponentViewer();
-//        AnchorPane.setTopAnchor(mViewer, 38D);
-//        AnchorPane.setLeftAnchor(mViewer, 0D);
-//        AnchorPane.setRightAnchor(mViewer, 0D);
-//        AnchorPane.setBottomAnchor(mViewer, 222D);
-//        mViewer.setOnMouseClicked(aoClicarMouse);
         mScrollPanel = new ScrollPane(mViewer);
         AnchorPane.setTopAnchor(mScrollPanel, 38D);
         AnchorPane.setLeftAnchor(mScrollPanel, 0D);
@@ -128,13 +78,11 @@ public class ProbabilisticReachWindow extends AnchorPane{
         mOptionalField.setPromptText("Condition");
         
         mOutputField = new Label("Result");
-//        mOutputField.setPromptText("Output");
         
         mBtnCalculate = new Button("Probability");
         mBtnCalculate.setOnAction((ActionEvent e) -> {
             calculate();            
         });
-//        mBtnBackStep = new Button("Back");
 
         mToolbar = new ToolBar();
         mToolbar.getItems().addAll(mSrcSttField);
@@ -147,47 +95,19 @@ public class ProbabilisticReachWindow extends AnchorPane{
         AnchorPane.setLeftAnchor(mToolbar, 0D);
         AnchorPane.setRightAnchor(mToolbar, 0D);
         getChildren().add(mToolbar);
-
-//        mTableView = new TableView();
-//        mTableView.setPrefHeight(200);
-//        AnchorPane.setLeftAnchor(mTableView, 0D);
-//        AnchorPane.setRightAnchor(mTableView, 0D);
-//        AnchorPane.setBottomAnchor(mTableView, 0D);
-//        getChildren().add(mTableView);
-
-//        mSourceCol = new TableColumn<>("Source");
-//        mSourceCol.setCellValueFactory(new PropertyValueFactory<>("source"));
-//        mSourceCol.setPrefWidth(100);
-//        mTargetCol = new TableColumn<>("Target");
-//        mTargetCol.setCellValueFactory(new PropertyValueFactory<>("target"));
-//        mTargetCol.setPrefWidth(100);
-//        mConditionCol = new TableColumn<>("Condition");
-//        mConditionCol.setPrefWidth(100);
-//        mConditionCol.setCellValueFactory(new PropertyValueFactory<>("condition"));
-//        mTableView.getColumns().addAll(mSourceCol, mTargetCol, mConditionCol);
-//        mTableView.setItems(mSteps);        
-
-//        mPathLabel = new Label("");
-//        mPathLabel.setPrefHeight(22);
-//        AnchorPane.setLeftAnchor(mPathLabel, 0D);
-//        AnchorPane.setRightAnchor(mPathLabel, 0D);
-//        AnchorPane.setBottomAnchor(mPathLabel, 200D);
-//        getChildren().add(mPathLabel);
     }
     
     private void calculate(){
-        mBtnCalculate.setText("Recalculate");
+        mBtnCalculate.setText("Calculate");
         Component a = mViewer.getComponent();
-        String aux1 = mSrcSttField.getText();//JOptionPane.showInputDialog("Please input source state:");
-        String aux2 = mTgtSttField.getText();//JOptionPane.showInputDialog("Please input destination state:");
+        String aux1 = mSrcSttField.getText();
+        String aux2 = mTgtSttField.getText();
         String aux3 = (String) mChoiceBox.getSelectionModel().getSelectedItem();
         String aux4 = mOptionalField.getText();
         if(aux1 == null || aux1.trim().isEmpty() || aux2 == null || aux2.trim().isEmpty()){
             JOptionPane.showMessageDialog(null, "Provide source and target states!");
             return;
         }
-        String[] tokens = aux2.split(" ");
-        int[] targets = new Parser().toInt(tokens);
         int source = Integer.parseInt(aux1);
         int destination = Integer.parseInt(aux2);
         State sourceS = a.getStateByID(source);
@@ -249,38 +169,6 @@ public class ProbabilisticReachWindow extends AnchorPane{
     
     private void start() {
         mBtnCalculate.setText("Calculate");
-//        Component a = mViewer.getComponent();
-//        String aux1 = mSrcSttField.getText();//JOptionPane.showInputDialog("Please input source state:");
-//        String aux2 = mTgtSttField.getText();//JOptionPane.showInputDialog("Please input destination state:");
-//        if(aux1 == null || aux2 == null){
-//            JOptionPane.showMessageDialog(null, "Provide source and target states!");
-//            return;
-//        }
-//        int source = Integer.parseInt(aux1);
-//        int destination = Integer.parseInt(aux2);
-//        State sourceS = a.getStateByID(source);
-//        State destinationS = a.getStateByID(destination);
-//        double p = new ProbabilisticReachAlgorithm().probabilityBetween(a, sourceS, destinationS, 1);
-//        String result = String.valueOf(p);
-//        mOutputField.setText(result);
-        
-//        mStepCount = 0;
-//        mSteps.clear();
-//        mPathLabel.setText("");
-//        mCurrentState = mViewer.getComponent().getInitialState();
-//        if (mCurrentState == null) {
-//            JOptionPane.showMessageDialog(null, "O componente não possui um estado inicial!");
-//            return;
-//        }
-//        for (State s : mViewer.getComponent().getStates()) {
-//            applyDisabledStyle(s);
-//        }
-//        for (Transition t : mViewer.getComponent().getTransitions()) {
-//            applyDisabledStyle(t);
-//        }
-//        showChoices();
-//        mSteps.add(new Step("", "", mCurrentState.getLabel()));
-//        mPathLabel.setText(mCurrentState.getLabel());
     }
 
     private void showChoices() {

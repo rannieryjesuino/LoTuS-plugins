@@ -53,15 +53,14 @@ public class UnreachableStates extends Plugin {
             for(State aux : unreachablePath){
                 a.remove(aux);
             }
-            int allStates = a.getStatesCount();
-            int allTransitions = a.getTransitionsCount();
+//            int allStates = a.getStatesCount();
+//            int allTransitions = a.getTransitionsCount();
             unreachablePath = detectUncheachableStates(a);
         }
     }
     
     
     public boolean isUnreachable (State s){
-        System.out.println(s.getIncomingTransitionsCount());
         if(s.getIncomingTransitionsCount() == 0 && !s.isInitial()){
             return true;
         }else{

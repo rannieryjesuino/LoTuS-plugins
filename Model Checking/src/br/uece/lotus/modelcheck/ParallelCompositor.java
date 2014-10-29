@@ -184,41 +184,6 @@ public class ParallelCompositor {
         }
         return s;
     }
-/*
-    static class ParallelState {
-
-        public State a;
-        public State b;
-        public State compositeState;
-
-        public ParallelState(State a, State b) {
-            this.a = a;
-            this.b = b;
-        }
-
-        @Override
-        public int hashCode() {
-            int hash = 7;
-            hash = 97 * hash + Objects.hashCode(this.a);
-            hash = 97 * hash + Objects.hashCode(this.b);
-            return hash;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (obj == null) {
-                return false;
-            }
-            if (getClass() != obj.getClass()) {
-                return false;
-            }
-            final ParallelState other = (ParallelState) obj;
-            if (!Objects.equals(this.a, other.a)) {
-                return false;
-            }
-            return Objects.equals(this.b, other.b);
-        }
-    }*/
 }
 
 

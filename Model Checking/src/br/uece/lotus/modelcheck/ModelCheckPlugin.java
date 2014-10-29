@@ -64,8 +64,11 @@ public class ModelCheckPlugin extends Plugin {
                         output += ", " + unreachables.get(i).getLabel();
                     }
                     output += ".";
-//                    JOptionPane.showMessageDialog(null, "Unreachable States: " + output);
-                    int dialogResult = JOptionPane.showConfirmDialog (null, "Would you like to remove those states?" + "\n" + "Unreachable States: " + output, "Unreachable States", JOptionPane.YES_NO_OPTION);
+                    Object[] options = {"Yes", "No"};
+                    int dialogResult = JOptionPane.showOptionDialog(null, "Unreachable States: " + output + "\n" + 
+                                                                    "Would you like to remove those states? ", "Unreachable States",
+                                                                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
+                                                                    null, options, options[0]);
                     if(dialogResult == JOptionPane.YES_OPTION){
                         new UnreachableStates().remove(unreachables, a);
                     }
@@ -75,7 +78,7 @@ public class ModelCheckPlugin extends Plugin {
             })
                 .create();
         
-        mUserInterface.getMainMenu().newItem("Verification/Deadlock States")
+        mUserInterface.getMainMenu().newItem("Verification/Deadlock Detection")
                 .setWeight(Integer.MAX_VALUE)
                 .setAction(() -> {
                     if (mProjectExplorer.getSelectedComponents().size() != 1) {
@@ -85,37 +88,21 @@ public class ModelCheckPlugin extends Plugin {
                     List<State> deadlocks = new DeadlockDetection().detectDeadlocks(a);
                     String output = new String();
                     int tam = deadlocks.size();
-//                    System.out.println("Deadlock States:");
                     if(deadlocks.size() > 0){
                         output += deadlocks.get(0).getLabel();
                         for (int i = 1; i < deadlocks.size(); i++) {
                             output += ", " + deadlocks.get(i).getLabel();
                         }
                         output += ".";
-                        JOptionPane.showMessageDialog(null, "Deadlock States: " + output);
+                        JOptionPane.showMessageDialog(null, "Deadlock States: " + output, 
+                                                    "Deadlock Detection", JOptionPane.WARNING_MESSAGE);
                     }else{
-                        JOptionPane.showMessageDialog(null, "No deadlocks!");
+                        JOptionPane.showMessageDialog(null, "No deadlocks!", 
+                                                    "Deadlock Detection", JOptionPane.INFORMATION_MESSAGE);
                     }
                 })
                 .create();
         
-//        mUserInterface.getMainMenu().newItem("Model/Probabilistic Reach")
-//                .setWeight(Integer.MAX_VALUE)
-//                .setAction(() -> {
-//                    if (mProjectExplorer.getSelectedComponents().size() != 1) {
-//                        throw new RuntimeException("Select exactly ONE component!");
-//                    }
-//                    Component a = mProjectExplorer.getSelectedComponents().get(0);
-//                    String aux1 = JOptionPane.showInputDialog("Please input source state:");
-//                    String aux2 = JOptionPane.showInputDialog("Please input destination state:");
-//                    int source = Integer.parseInt(aux1);
-//                    int destination = Integer.parseInt(aux2);
-//                    State sourceS = a.getStateByID(source);
-//                    State destinationS = a.getStateByID(destination);
-//                    double p = new ProbabilisticReachAlgorithm().probabilityBetween(a, sourceS, destinationS, 1);
-//                    
-//                })
-//                .create();
     }
 
 }

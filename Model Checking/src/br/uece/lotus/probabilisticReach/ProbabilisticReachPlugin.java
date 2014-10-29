@@ -49,7 +49,7 @@ public class ProbabilisticReachPlugin extends Plugin implements ProbabilisticRea
         mUserInterface = extensionManager.get(UserInterface.class);
         mProjectExplorer = extensionManager.get(ProjectExplorer.class);
         
-        mUserInterface.getMainMenu().newItem("Verification/Probabilistic Reach")
+        mUserInterface.getMainMenu().newItem("Verification/Probabilistic Reachability")
                 .setWeight(Integer.MAX_VALUE)
                 .setAction(mOpenProbabilisticReach)
                 .create();
@@ -68,7 +68,7 @@ public class ProbabilisticReachPlugin extends Plugin implements ProbabilisticRea
 //        if (tabId == null) {
         ProbabilisticReachWindow w = new ProbabilisticReachWindow();
         w.setComponent(c);
-        int id = mUserInterface.getCenterPanel().newTab(c.getName() + " - [Probabilistic Reach]", w, true);
+        int id = mUserInterface.getCenterPanel().newTab(c.getName() + " - [Probabilistic Reachability]", w, true);
 //            c.setValue("tab.id", tabId);
 //            c.setValue("gui", w);
 //        }

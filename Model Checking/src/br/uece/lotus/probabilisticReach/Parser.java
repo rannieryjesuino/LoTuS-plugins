@@ -22,10 +22,24 @@ public class Parser {
     
     public int[] toInt (String[] tokens){
         int size = tokens.length;
+        String next = null;
         int[] targets = new int[size];
-        for(int i = 0; i < size; i++){
-            targets[i] = Integer.parseInt(tokens[i]); 
+        if(isNumeric(tokens[0])){
+            JOptionPane.showMessageDialog(null, "Provided target states arent in the expected format!");
+            return null;
+        }
+        targets[0] = Integer.parseInt(tokens[0]);
+        for(int i = 1; i < size; i++){
+            if(tokens[i] == "||" && (!isNumeric(tokens[i+1])) || i == size-1){
+                JOptionPane.showMessageDialog(null, "Provided target states arent in the expected format!");
+                return null;
+            }
+            
         }
         return targets;
+    }
+    
+    public static boolean isNumeric (String str){
+        return str.matches("-?\\d+(\\.\\d+)?");  //match a number with optional '-' and decimal.
     }
 }
