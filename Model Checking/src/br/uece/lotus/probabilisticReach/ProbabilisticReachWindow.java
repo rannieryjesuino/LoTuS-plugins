@@ -148,13 +148,37 @@ public class ProbabilisticReachWindow extends AnchorPane{
             @Override
             public void handle(ActionEvent event) {
                 Entry selectedEntry = (Entry) mTableView.getSelectionModel().getSelectedItem();
-                String resultado = calculate(true, selectedEntry) + " ok!";
-                selectedEntry.setResult(resultado);
+                calculate(true, selectedEntry);
                 refresh();
                 System.out.println();
             }
         });
+        MenuItem verifyAll = new MenuItem("Verify All");
+        verifyAll.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                List<Entry> allEntries = mTableView.getItems();
+                for(Entry selectedEntry : allEntries){
+                    calculate(true, selectedEntry);
+                    refresh();
+                    System.out.println();
+                }
+            }
+        });
+//        EM ANDAMENTO
+//        MenuItem remove = new MenuItem("Remove");
+//        remove.setOnAction(new EventHandler<ActionEvent>() {
+//            @Override
+//            public void handle(ActionEvent event) {
+//                Entry selectedEntry = (Entry) mTableView.getSelectionModel().getSelectedItem();
+//                mTableView.getSelectionModel().getSelectedItem().;
+//                refresh();
+//                System.out.println();
+//            }
+//        });
         menu.getItems().add(verify);
+        menu.getItems().add(verifyAll);
+//        menu.getItems().add(remove);
         mTableView.setContextMenu(menu);
 
         mToolbar = new ToolBar();
@@ -238,6 +262,7 @@ public class ProbabilisticReachWindow extends AnchorPane{
         if(aux4 == null || aux4.trim().isEmpty()){
             mOutputField.setText(result);
             mOutputField.setStyle("-fx-background-color: yellow");
+            if(fromMenu){ selectedEntry.setResult(result + " ok!");}
         }else{
             double optional = Double.parseDouble(aux4);
             switch (aux3){
@@ -245,54 +270,66 @@ public class ProbabilisticReachWindow extends AnchorPane{
                     if(p > optional){
                         mOutputField.setText("True");
                         mOutputField.setStyle("-fx-background-color: limegreen");
+                        if(fromMenu){selectedEntry.setResult("True" + " ok!");}
                     }else{
                         mOutputField.setText("False");
                         mOutputField.setStyle("-fx-background-color: red");
+                        if(fromMenu){selectedEntry.setResult("False" + " ok!");}
                     }
                     break;
                 case ">=":
                     if(p >= optional){
                         mOutputField.setText("True");
                         mOutputField.setStyle("-fx-background-color: limegreen");
+                        if(fromMenu){selectedEntry.setResult("True" + " ok!");}
                     }else{
                         mOutputField.setText("False");
                         mOutputField.setStyle("-fx-background-color: red");
+                        if(fromMenu){selectedEntry.setResult("False" + " ok!");}
                     }
                     break;
                 case "<":
                     if(p < optional){
                         mOutputField.setText("True");
                         mOutputField.setStyle("-fx-background-color: limegreen");
+                        if(fromMenu){selectedEntry.setResult("True" + " ok!");}
                     }else{
                         mOutputField.setText("False");
                         mOutputField.setStyle("-fx-background-color: red");
+                        if(fromMenu){selectedEntry.setResult("False" + " ok!");}
                     }
                     break;
                 case "<=":
                     if(p <= optional){
                         mOutputField.setText("True");
                         mOutputField.setStyle("-fx-background-color: limegreen");
+                        if(fromMenu){selectedEntry.setResult("True" + " ok!");}
                     }else{
                         mOutputField.setText("False");
                         mOutputField.setStyle("-fx-background-color: red");
+                        if(fromMenu){selectedEntry.setResult("False" + " ok!");}
                     }
                     break;
                 case "=":
                     if(p == optional){
                         mOutputField.setText("True");
                         mOutputField.setStyle("-fx-background-color: limegreen");
+                        if(fromMenu){selectedEntry.setResult("True" + " ok!");}
                     }else{
                         mOutputField.setText("False");
                         mOutputField.setStyle("-fx-background-color: red");
+                        if(fromMenu){selectedEntry.setResult("False" + " ok!");}
                     }
                     break;
                 case "!=":
                     if(p != optional){
                         mOutputField.setText("True");
                         mOutputField.setStyle("-fx-background-color: limegreen");
+                        if(fromMenu){selectedEntry.setResult("True" + " ok!");}
                     }else{
                         mOutputField.setText("False");
                         mOutputField.setStyle("-fx-background-color: red");
+                        if(fromMenu){selectedEntry.setResult("False" + " ok!");}
                     }
                     break;    
             }
